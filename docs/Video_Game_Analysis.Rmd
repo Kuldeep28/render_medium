@@ -1,10 +1,5 @@
 ---
 title: "Video Game Analysis"
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs';
-  rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Kuldeep Parashar"
 date: "02/01/2019"
 
@@ -17,7 +12,13 @@ output:
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
     #css: my.css   # you can add your custom css, should be in same folder
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
+
 ```{r, echo=FALSE}
 htmltools::img(src = knitr::image_uri(file.path("/Users/kuldeep/Desktop/blue3.jpg")), 
                alt = 'logo', 
