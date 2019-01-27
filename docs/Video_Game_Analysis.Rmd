@@ -47,6 +47,7 @@ This report answers Question on Video Game industries some of them are Stated be
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
+library(plotly)
 
 setwd("/Users/kuldeep/Desktop/Deploy")
 main_df<-read_csv("/Users/kuldeep/Downloads/vgsales.csv",na=c("Na","N/A","NA","na","  "))
@@ -136,7 +137,8 @@ So here we see that how the data is being spread and its central tendencies to g
 
 #### Yearly Increase in Videogame Development
 ```{r message=FALSE,echo=FALSE,warning=FALSE}
-ggplot(data = df,aes(x=df$Year,position="Fill",fill=df$Genre))+geom_bar()+coord_flip()
+plot0<-ggplot(data = df,aes(x=df$Year,position="Fill",fill=df$Genre))+geom_bar()+coord_flip()
+ggplotly(plot0)
 ```
 the hisogram clearly states that there is abrupt declination in video game manufacturing from  2012, this also act as evidance that there are very less jobs for video game developer in 2014.
 
@@ -145,7 +147,8 @@ the hisogram clearly states that there is abrupt declination in video game manuf
 
 ```{r  message=FALSE,echo=FALSE,warning=FALSE}
 library(forcats)
-ggplot(data = df,aes(x=fct_infreq(Genre),fill=df$Genre))+geom_bar()+coord_flip()
+plo2<-ggplot(data = df,aes(x=fct_infreq(Genre),fill=df$Genre))+geom_bar()+coord_flip()
+ggplotly(plo2)
 ```
 this bar chart give clear evidance that in Numbers Action game are on the top followed by Sports and Miscellaneous 
 
@@ -161,7 +164,8 @@ plot_df<-data.frame(c("Japan","Europe","NorthAmerica","other_sale"),c(jap_sale,E
 
 colnames(plot_df)<-c("Country","Total_sales")
 plot_df
-ggplot(data=plot_df,aes(x=Country,y=Total_sales))+geom_count(mapping = aes(color=Country))
+plot2<-ggplot(data=plot_df,aes(x=Country,y=Total_sales))+geom_count(mapping = aes(color=Country))
+ggplotly(plot2)
 ```
 
 here we can clearly say that most the sales come from the North America but if we think s point of view of Marketing its not a great metric, as we know that japan has less population so if we incorporate that factor into metric things may be different
