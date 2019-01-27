@@ -16,11 +16,11 @@ knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
  encoding=encoding,
- output_file=file.path(dirname(input_file),"/", 'index.html'))})
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
 
 ```{r, echo=FALSE}
-htmltools::img(src = knitr::image_uri(file.path("/Users/kuldeep/Documents/GitHub/render_medium/docs/Blue3.jpg")), 
+htmltools::img(src = knitr::image_uri(file.path("/Users/kuldeep/Desktop/blue3.jpg")), 
                alt = 'logo', 
                style = 'position:absolute; top:0; right:0; padding:10px;')
 ```
