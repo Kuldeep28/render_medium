@@ -12,11 +12,7 @@ output:
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
     #css: my.css   # you can add your custom css, should be in same folder
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs';
-  rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file),"/", 'index.html'))})
+
 ---
 
 ```{r, echo=FALSE}
@@ -54,7 +50,7 @@ main_df<-read_csv("/Users/kuldeep/Downloads/vgsales.csv",na=c("Na","N/A","NA","n
 df<-main_df
 summary(df)
 dim(df)
-
+library(rlang)
 ```
 The data is in Csv(Comma Separated) format,the dimensions are `r< dim(df) >`.
 The names of all the column and their meanings are stated below:-
@@ -124,34 +120,41 @@ ggplot(data = tot_val)+geom_freqpoly(mapping=aes(x=tot_val$total_Sale),color="re
 the long tail in the graph clearly states that there are only very few games which have total revenue greater then 75.Most probably these are the most popular game, if not so it may be an outlier.Also we have to check for the duplicacy of the data
 ```{r message=FALSE,echo=FALSE,warning=FALSE }
 df%>%group_by(Name)%>%summarise(count=n())%>%filter(count>1)%>%arrange(desc(count))
+library(tidyverse)
 ```
-so here we can see that there are 2,775 videogames which are being published , surely these game must have great revenue thats why there are multiple release
+so here we can see that there are 2,775 videogames which are being published more then once, surely these game must have great revenue thats why there are multiple release
 
 
 in the next section we will analysis the trend and try to find the correlations and give ans to various Curious Questions too.
 
-## Analysis and Trends  {.tabset}
+
 
 ### Univariate
-So here we see that how the data is being spread and its central tendencies to get an direct insghts of the data
+So here we see that how the data is being spread and its central tendencies to get an direct insights of the data
 
 #### Yearly Increase in Videogame Development
 ```{r message=FALSE,echo=FALSE,warning=FALSE}
-plot0<-ggplot(data = df,aes(x=df$Year,position="Fill",fill=df$Genre))+geom_bar()+coord_flip()
-ggplotly(plot0)
+library(tidyverse)
+library(dplyr)
+df<-na.omit(df)
+summary(df$Year)
+  plot<-ggplot(data = df,aes(x=df$Year,position="Fill",fill=df$Genre))+geom_bar()+coord_flip()
+ggplotly(plot)
 ```
 the hisogram clearly states that there is abrupt declination in video game manufacturing from  2012, this also act as evidance that there are very less jobs for video game developer in 2014.
-
+The graph fall abruptly after 2016, this indicates that there must be some kind of problem in data gathering after 2016, the data is inconsistent.We will limit our studies till 2016. 
 
 #### Genre wise No. of Game Developed 
-
+This graphs shows which, which genre have most no. games in it .Action Games are at the tops followed by Sports, here interesting insights is that, miscellenious game are 3rd highest ranking. 
 ```{r  message=FALSE,echo=FALSE,warning=FALSE}
 library(forcats)
 plo2<-ggplot(data = df,aes(x=fct_infreq(Genre),fill=df$Genre))+geom_bar()+coord_flip()
 ggplotly(plo2)
 ```
-this bar chart give clear evidance that in Numbers Action game are on the top followed by Sports and Miscellaneous 
+This graphs shows which, which genre have most no. games in it .Action Games are at the tops followed by Sports, here interesting insights is that, miscellenious game are 3rd highest ranking.
 
+#### game Genre distribution on Countries
+lets see distribution of companies developing game in a Genre.   
 
 #### Sales Country wise Analysis
 ```{r results='hide',message=FALSE,echo=FALSE,warning=FALSE ,collapse=TRUE}
@@ -163,16 +166,36 @@ other<-sum(df$Other_Sales)
 plot_df<-data.frame(c("Japan","Europe","NorthAmerica","other_sale"),c(jap_sale,Eu_sal,Na_Sale,other))
 
 colnames(plot_df)<-c("Country","Total_sales")
-plot_df
 plot2<-ggplot(data=plot_df,aes(x=Country,y=Total_sales))+geom_count(mapping = aes(color=Country))
-ggplotly(plot2)
+plot2
 ```
 
 here we can clearly say that most the sales come from the North America but if we think s point of view of Marketing its not a great metric, as we know that japan has less population so if we incorporate that factor into metric things may be different
 
 
 ### Bivariate
-Here we will the effects of on variable as the second variable changes  
- and
+Here we will the effects of on variable as the second variable changes an
+
+
+## Get Some insights  {.tabset}
+
+### Top 5 games Revenue
+todo the leaft work and to mark things to geates and to let things
+
+```{r}
+
+top_20_max_rev<-df%>%group_by(Name)%>%summarise(total_sale=sum(Global_Sales))%>%top_n(10)%>%arrange(desc(total_sale))
+kable(top_20_max_rev)%>%
+  kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
+```
+So till 2016 these games have the most global revenue, Wii sports which is nentando game is on the top and google search link also state this (Quite intresting actually)
+GrandTheft Auto is on 2 followed by Super Mario
+
+```{r}
+ggplot(data=top_20_max_rev,aes(x=Name,y=total_sale,color=total_sale))+geom_point()+coord_flip()
+```
+
+### Top 5 Games In a Region
+;fire in the eye are to make things and to let hings are we are to make it and 
 
 
