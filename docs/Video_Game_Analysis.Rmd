@@ -34,7 +34,7 @@ This report answers Question on Video Game industries some of them are Stated be
 
 * >which company has the most profitable Video game
 
-* >What share of market is held by companies in different 
+* >What share of market is held by companies in different regions
 
 
 ### Introducing Our Source `The Data`
@@ -233,3 +233,22 @@ genre<-ggplot(data=Mtric_ease)+geom_point(mapping = aes(x=Genre,y=ease_metric,co
 ggplotly(genre)
 ```
 
+### Facts on Consoles!!
+
+now lets find that which Console offer the most number of video games .
+Ease metric gives us an Average revenue genrated by a Game launched for a console type.
+
+```{r message=FALSE,echo=FALSE,warning=FALSE}
+Mtric_ease_cons<-df%>%group_by(Platform)%>%summarise(total_revenue=sum(Global_Sales),count=n(),ease_metric=total_revenue/count)%>%arrange(desc(total_revenue,count,ease_metric))
+kable(Mtric_ease_cons%>%filter(count>15))%>%
+kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
+
+```
+The above table clearly indicates that Ps range of console by sony has genrated the maximum revenue, so for increasing sales for the video game one must make the video game compitable with  top revenue generating console which are larger in numbers.
+
+The plot shows a clear insight about the revenue genrated by a specific console.
+```{r message=FALSE,echo=FALSE,warning=FALSE}
+Cons_plot<-ggplot(data =Mtric_ease_cons)+geom_point(mapping = aes(x=Platform,y=total_revenue,color=total_revenue))+coord_flip()
+ggplotly(Cons_plot)
+```
+But taking Revenue as a metric for compatibality may be distorted as it may be possible due to one specific kind of game has increased the revenue but te no of Console are less, so comaptiblity priority must be choose taking both factors revenue and count 
