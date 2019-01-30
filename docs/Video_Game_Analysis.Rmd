@@ -179,23 +179,39 @@ Here we will the effects of on variable as the second variable changes an
 
 ## Get Some insights  {.tabset}
 
-### Top 5 games Revenue
+### Top 10 Revenue generating Games
 todo the leaft work and to mark things to geates and to let things
 
-```{r}
+```{r message=FALSE,echo=FALSE,warning=FALSE}
 
-top_20_max_rev<-df%>%group_by(Name)%>%summarise(total_sale=sum(Global_Sales))%>%top_n(10)%>%arrange(desc(total_sale))
+top_20_max_rev<-df%>%group_by(Name)%>%summarise(total_sale=sum(Global_Sales))%>%arrange(desc(total_sale))%>%top_n(10)
 kable(top_20_max_rev)%>%
   kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
 ```
 So till 2016 these games have the most global revenue, Wii sports which is nentando game is on the top and google search link also state this (Quite intresting actually)
 GrandTheft Auto is on 2 followed by Super Mario
 
-```{r}
-ggplot(data=top_20_max_rev,aes(x=Name,y=total_sale,color=total_sale))+geom_point()+coord_flip()
+```{r message=FALSE,echo=FALSE,warning=FALSE}
+Name_vd<-ggplot(data=top_20_max_rev,aes(x=Name,y=total_sale))+geom_point(size=2,mapping = aes(color=total_sale))+coord_flip()
+ggplotly(Name_vd)
 ```
 
-### Top 5 Games In a Region
-;fire in the eye are to make things and to let hings are we are to make it and 
+### Top 5 Revenue Generating Genres
+For a Game developer finding the sweet spot is important to make revenue in such a competative market, lets first find which genre generate maximum revenue and after that we will find that which genre has least compettion that is total revenue devided by total no of video game companies making games on that genre
+```{r message=FALSE,echo=FALSE,warning=FALSE}
+top_10_genre<-df%>%group_by(Genre)%>%summarise(total_revenue=sum(Global_Sales))%>%top_n(10)%>%arrange(desc(total_revenue))
 
+kable(top_10_genre)%>%
+kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
+```
+here we can see that Misc genre is on 3 position in no of count of games but in case revenue genration its far from Action and Sports and all. 
+```{r message=FALSE,echo=FALSE,warning=FALSE}
 
+genre<-ggplot(data=top_10_genre,aes(x=Genre,y=total_revenue))+geom_point(size=2,mapping = aes(color=total_revenue))+coord_flip()
+
+ggplotly(genre)
+```
+
+### Sweet Spot!!
+
+now lets find that which genre has the least no of videogame devloped init
