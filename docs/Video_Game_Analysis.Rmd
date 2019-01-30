@@ -199,7 +199,7 @@ ggplotly(Name_vd)
 ### Top 5 Revenue Generating Genres
 For a Game developer finding the sweet spot is important to make revenue in such a competative market, lets first find which genre generate maximum revenue and after that we will find that which genre has least compettion that is total revenue devided by total no of video game companies making games on that genre
 ```{r message=FALSE,echo=FALSE,warning=FALSE}
-top_10_genre<-df%>%group_by(Genre)%>%summarise(total_revenue=sum(Global_Sales))%>%top_n(10)%>%arrange(desc(total_revenue))
+top_10_genre<-df%>%group_by(Genre)%>%summarise(total_revenue=sum(Global_Sales))%>%top_n(12)%>%arrange(desc(total_revenue))
 
 kable(top_10_genre)%>%
 kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
@@ -215,3 +215,13 @@ ggplotly(genre)
 ### Sweet Spot!!
 
 now lets find that which genre has the least no of videogame devloped init
+
+metric would be like to make total revenue generate by a genre devid eby the total no a video game in the genre 
+
+```{r}
+Mtric_ease<-df%>%group_by(Genre)%>%summarise(total_revenue=sum(Global_Sales),count=n(),ease_metric=total_revenue/count)%>%arrange(desc(ease_metric))
+kable(Mtric_ease)%>%
+kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
+
+```
+some intresting facts again as we can see that platorm and Shotter game are genrating great average revenue per game, action game clearly get out of top 5 and its clearly show that there are alot number of games,
