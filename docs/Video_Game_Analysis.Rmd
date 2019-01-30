@@ -218,10 +218,18 @@ now lets find that which genre has the least no of videogame devloped init
 
 metric would be like to make total revenue generate by a genre devid eby the total no a video game in the genre 
 
-```{r}
+```{r message=FALSE,echo=FALSE,warning=FALSE}
 Mtric_ease<-df%>%group_by(Genre)%>%summarise(total_revenue=sum(Global_Sales),count=n(),ease_metric=total_revenue/count)%>%arrange(desc(ease_metric))
 kable(Mtric_ease)%>%
 kable_styling(bootstrap_options = c("striped", "hover","bordered", "condensed"),full_width = F)%>%column_spec(2,background ="#BSB8B6")
 
 ```
 some intresting facts again as we can see that platorm and Shotter game are genrating great average revenue per game, action game clearly get out of top 5 and its clearly show that there are alot number of games,
+
+```{r message=FALSE,echo=FALSE,warning=FALSE}
+
+genre<-ggplot(data=Mtric_ease)+geom_point(mapping = aes(x=Genre,y=ease_metric,color=ease_metric))+coord_flip()
+
+ggplotly(genre)
+```
+
